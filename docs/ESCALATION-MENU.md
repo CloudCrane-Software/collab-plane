@@ -29,6 +29,10 @@
 | ESC-010 | ohos-tailscale | O7-b：拉取 headscale fork 镜像授权；O7-c：preauthkey 签发 | ★按 PLAN §4.2 O7 流程（两者可合并一次处理） | 同上 | 待裁 |
 | ESC-011 | ohos-tailscale | O1/O6 数值确认（PLAN §4.2） | ★按默认值确认 | 同上 | 待裁 |
 | ESC-012 | 跨项目 | 三项目并行时的 GPU/token 预算分配比例（skillfactory 跑批与 plane ensemble 抢预算时谁让路） | ★A. plane ensemble 优先（平面是全体基础设施） B. 按业务线营收优先 skillfactory C. 按项目登记先后 | planner 待提 | 待裁（可后裁，冲突发生时激活） |
+| ESC-013 | 跨项目 | worker-step/worker-minimax 定时调用失效：ZCode automations 发出的 kimi.exe 命令参数被截断（`unknown command 'the'`，秒败）——两族 worker 瘫痪，仅 glm 族在跑。**已解决（2026-10-03 监督者修复，见 §三）；另"约 90 秒点火间隔"一条系 planner 误读监督者手动重跑，撤回** | ~~A. 修 automations 引号/转义~~（已做） | planner 10-03 首轮巡检；监督者修复 10-03 | **已解决** |
+| ESC-014 | plane | Higress 异族审查设计的换族粒度：hetero 判定按任务级还是里程碑级？（连带 Q3：`TIERS["high"]` 对 glm worker 仅剩 Kimi 单点，是否接受 A1=显式记录+blocked 兜底） | ★A. 任务级（与 PROTOCOL §5 现行语义一致、爆炸半径最小；连带 Q3 取 A1 接受单点） B. 里程碑级（需改协议 L2 表决） C. 混合（里程碑内默认同族+验收门强制异族） | planner 10-03 验收 T-0003（设计 §6） | 待裁 |
+| ESC-015 | peidian-agent | 规划 §9 十条+测试 §14 十四条批量裁决（均带默认值，不答复按默认执行；清单=配电agent\planning\规划文档.md §9 与 测试文档.md §14）。关键三条：①跨场景老化/agent 记忆是否在意图内 ②验收哲学是否重构为"清单外无反例" ③3 万次判定重跑时机（默认推迟到五修+ESC≥50） | ★逐条按默认值执行，owner 只翻例外 | peidian 接入 10-03 | 待裁（批量） |
+| ESC-016 | peidian-agent | gate 0 裁决（AgentCore 上场/AgentResponder 降级插件/llm_agent.py 弃用——倾向已载规划 §裁决7；等 PD-0002 证据化尽调报告后正式拍板） | ★按规划倾向（AgentCore 上场+Responder 降插件+llm_agent 弃用） | PD-0002 交付后激活 | 预告（未到裁定时点） |
 
 ## 三、裁定记录（planner 归档区）
 
@@ -36,3 +40,4 @@
 |---|---|---|---|
 | ESC-000 | 已裁 | GPU 只做训练、推理栈退役、门禁/watchdog 全删 | 2026-10-03（owner 原话执行） |
 | — | 已裁 | CodeRabbit 已 org 全装（实证 PR#1 status=success）；分支保护补完（enforce_admins+PR 必须） | 2026-10-03 |
+| ESC-013 | 已解决 | 监督者 2026-10-03 修复 ZCode automations 对 kimi.exe 的调用：①命令引号/转义 bug（参数被截断成 `the` 秒败）已修；②step/minimax 通道保障重构完成——两族 worker 定时通道恢复可用。planner 侧观察更正：先前登记的"点火间隔约 90 秒"系误读监督者调试期的手动重跑，非 cron 真实间隔，该观察撤回。**planner 第三轮（10-03 20:4x）复证闭环：minimax 族=worker-minimax-r7 交付 SF-0001（20:13）；step 族=worker-stepfun-r1 交付 OT-0001（20:02）+认领 OT-0002（20:2x）；两族 cron 日志 20:15 同步点火正常** | 2026-10-03 |
