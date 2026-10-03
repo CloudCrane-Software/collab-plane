@@ -1,0 +1,17 @@
+# 租户登记：skillfactory（2026-10-03 接入，按 REGISTRY.md/local-plane ONBOARD 流程）
+project: skillfactory
+org_id: cloudcrane
+tenant_type: internal_project
+quota:
+  max_concurrent_active: 2
+  min_concurrent_guarantee: 1
+  ensemble_daily: {weak5: 20, strong5: 4}
+  token_budget_daily: unbounded
+family_routing:
+  preferred: [any]
+  hetero_acceptance: true
+default_acceptance_suite:
+  visible: "D:\\new-workspace\\agent-asset\\planning\\TESTS.md（可见 119 例）"
+  holdout_ref: "TESTS.md §holdout（18 例，随文件管理）"
+created: 2026-10-03
+notes: skill 资产工厂 v5 产线；PLAN/TESTS v1.1 已定稿；工作区内六项目封存只读；git=afp-clone monorepo（HEAD 18f6ead）
