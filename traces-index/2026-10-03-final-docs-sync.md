@@ -1,6 +1,6 @@
 # 2026-10-03 · 定稿补同步（DEV-PLAN 定稿 / TEST-SUITE / CRON-PROMPTS-v2）
 
-> 建仓后定稿文档补同步进仓登记。源：windev `全面迁移/plane-build/`，与 srv-1 增量归档（同日重打包）双处可查。
+> 建仓后定稿文档补同步进仓登记。源：windev `全面迁移/plane-build/`，与 srv-1 增量归档（同日收尾重打包：210 项，tar.gz SHA-256 `05e3dd97254295a32dd483368a2a25714b892572c70eaa456f5ee0e297167e4d`）双处可查。
 
 ## 本批文件 SHA-256
 
@@ -13,5 +13,5 @@
 ## 同步信息
 
 - 同步时间：2026-10-03（windev-01 收尾同步 agent）
-- commit：占位——本文件所在提交，以 `git log --format=%H -n 1 -- traces-index/2026-10-03-final-docs-sync.md` 为准
+- commit：`bd7cfbbb359f5dbd0483a25e37c3196364a1eef1`（本文件首次入库提交，即 docs 补同步提交）；后续修订以 `git log` 为准
 - 备注：TEST-SUITE.md 缺席为建仓报告（§四待办 6）已记载事项，本次补齐即闭环

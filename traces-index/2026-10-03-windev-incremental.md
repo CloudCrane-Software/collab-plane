@@ -24,3 +24,7 @@
 - `全面迁移/plane-build/`（DEV-PLAN + 五轨迹 + BRIEF×2——本规划的原始轨迹资产）
 - `local-plane/` 全量（含 tasks/journal/agents/holdout——阶段 3 收编的存在性前提）
 - `全面迁移/tests/golden/cases/GC-CLT-0{1,2,3}.yaml`
+
+## 收尾重打包（同日晚，收尾同步 agent）
+
+> 因定稿三件（DEV-PLAN/TEST-SUITE/CRON-PROMPTS-v2）与 local-plane 新增量（journal 第 3 份）同日重打包：208 → **210 项**，新包 SHA-256 `05e3dd97254295a32dd483368a2a25714b892572c70eaa456f5ee0e297167e4d`（968,508 B，srv-1 侧 `sha256sum -c` 逐文件 OK，tar 项数=清单行数）。本文上文 SHA/208 项为建仓时点快照，已被新包覆盖；同步登记见 `2026-10-03-final-docs-sync.md`。
