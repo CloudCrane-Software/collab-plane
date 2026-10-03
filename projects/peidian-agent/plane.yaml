@@ -1,0 +1,17 @@
+# 租户登记：peidian-agent（2026-10-03 接入，第四项目）
+project: peidian-agent
+org_id: cloudcrane
+tenant_type: internal_project
+quota:
+  max_concurrent_active: 2
+  min_concurrent_guarantee: 1
+  ensemble_daily: {weak5: 20, strong5: 4}
+  token_budget_daily: unbounded
+family_routing:
+  preferred: [any]
+  hetero_acceptance: true
+default_acceptance_suite:
+  visible: "D:\\new-workspace\\配电agent\\planning\\测试文档.md（285 可见；52 即红=M0 验收清单）"
+  holdout_ref: "判据常量仓外+仓内哈希登记（14 条；切信息不切文件）"
+created: 2026-10-03
+notes: 园区配电运维智能体（模拟器+agent 迭代 M0-M6 双 gate）；PLAN 702 行/TESTS 891 行定稿；禁 converge.py CLI 复算；开发正本=澄迈路径（agent-asset 下为封存快照勿混）
