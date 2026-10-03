@@ -1,0 +1,17 @@
+# 租户登记：ohos-tailscale（2026-10-03 接入，按 REGISTRY.md/local-plane ONBOARD 流程）
+project: ohos-tailscale
+org_id: cloudcrane
+tenant_type: internal_project
+quota:
+  max_concurrent_active: 2
+  min_concurrent_guarantee: 1
+  ensemble_daily: {weak5: 20, strong5: 4}
+  token_budget_daily: unbounded
+family_routing:
+  preferred: [any]
+  hetero_acceptance: true
+default_acceptance_suite:
+  visible: "D:\\new-workspace\\ohos-tailscale\\docs\\pre-device-plan\\TESTS.md + node scripts/test-plan.mjs（UNEXPECTED_RED=0 硬门）"
+  holdout_ref: "仓外保密目录（OT-0001 迁移后登记 SHA，绝不入仓）"
+created: 2026-10-03
+notes: 鸿蒙 Tailscale 兼容客户端；PLAN/TESTS v1.1+O/R 全拍板；D4 零网络/ArkTS 禁则 A1-A36/禁 npm install；OT-0001 前置门未过不派工
