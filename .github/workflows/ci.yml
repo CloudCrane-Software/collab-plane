@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   smoke-protocol-schema:
-    name: smoke: protocols 版本头校验
+    name: "smoke: protocols 版本头校验"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,14 +21,14 @@ jobs:
         run: bash tests/visible/smoke-protocol-schema.sh
 
   config-wellformed:
-    name: smoke: jobs/projects 配置可解析
+    name: "smoke: jobs/projects 配置可解析"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: python3 tests/visible/check-config-wellformed.py
 
   markdown-lint:
-    name: lint: markdown
+    name: "lint: markdown"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
           config-file: .markdownlint.json
 
   secret-pattern-lint:
-    name: lint: 泄密扫描（零落盘纪律机器化）
+    name: "lint: 泄密扫描（零落盘纪律机器化）"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

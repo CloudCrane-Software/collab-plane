@@ -1,29 +1,36 @@
 # mirror —— cnb.cool 只读镜像（单向 GitHub→cnb）。canonical=GitHub，镜像不接受 PR（DEV-PLAN §5.4）。
 # 骨架态（2026-10-03）：凭据未接通前不启用——cnb token 从 Bao 现取（kv/company/Git-Platform/CNB/CNB-1-repo-only），
 # 而 GH 托管 runner 不持任何 secret（零凭据原则），故真实镜像执行体=平面侧（srv-1 egress git-push 模式或
-# self-hosted runner）。启用步骤（阶段 1/2）：1) srv-1 注册 self-hosted runner 或改由 srv-1 cron 调镜像脚本；
-# 2) 取消下方注释；3) 对账任务输出 PASS 后在回归门禁登记漂移检测。
+# self-hosted runner）。
 #
-# name: mirror-cnb
-# on:
-#   push:
-#     branches: [main]
-#     tags: ['protocols-v*']
-# jobs:
-#   push-mirror:
-#     runs-on: [self-hosted, srv-1]     # 平面侧执行器（可经 Bao 现取 cnb token）
-#     steps:
-#       - uses: actions/checkout@v4
-#         with: { fetch-depth: 0 }
-#       - name: mirror to cnb.cool
-#         run: |
-#           set -e
-#           # token 运行期现取，不落盘不进 argv：
-#           CNB_TOKEN=$(bao 取值流程，复用 egress git-push 模式)
-#           git remote add cnb "https://${CNB_USERNAME}:${CNB_TOKEN}@cnb.cool/cloudcrane-software/collab-plane.git"
-#           git push cnb --all --force
-#           git push cnb --tags --force
-#           git remote remove cnb
-#   drift-check:
-#     # 定时对账双平台 ref 一致性，漂移即告警入回归门禁（DEV-PLAN §5.4）
-#     schedule 由平面侧 cron 承担（06:00 回归轮一并出对账报告）
+# 启用步骤（阶段 1/2）：
+#   1) srv-1 注册 self-hosted runner，或改由 srv-1 cron 调镜像脚本（推荐，同 06:00 回归轮对账）；
+#   2) 把下方 if: false 改为 true，并取消 push 触发注释；
+#   3) 对账任务输出 PASS 后在回归门禁登记漂移检测（DEV-PLAN §5.4）。
+name: mirror-cnb
+
+on:
+  workflow_dispatch:      # 仅手动触发入口；push 自动触发在凭据接通后启用（见上）
+  # push:
+  #   branches: [main]
+  #   tags: ['protocols-v*']
+
+jobs:
+  push-mirror:
+    if: false             # 骨架态：凭据未接通前永不执行
+    # runs-on: [self-hosted, srv-1]   # 平面侧执行器（可经 Bao 现取 cnb token）
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "disabled until cnb credentials wired (Bao kv/company/Git-Platform/CNB; see header comments)"
+      # 完整步骤草案：
+      # - uses: actions/checkout@v4
+      #   with: { fetch-depth: 0 }
+      # - name: mirror to cnb.cool
+      #   run: |
+      #     set -e
+      #     # token 运行期现取，不落盘不进 argv（复用 egress git-push 模式）：
+      #     CNB_TOKEN=$(...Bao 取值流程...)
+      #     git remote add cnb "https://${CNB_USERNAME}:${CNB_TOKEN}@cnb.cool/cloudcrane-software/collab-plane.git"
+      #     git push cnb --all --force
+      #     git push cnb --tags --force
+      #     git remote remove cnb
