@@ -4,11 +4,11 @@
 
 ## 1. 状态集（冻结）
 
-```
+```text
 OPENED, L1_TEST, L2_INTENT, L3_SUMMARY, L4_FINAL, MERGED, CHANGES_REQUESTED, BLOCKED
 ```
 
-```
+```text
 OPENED → L1_TEST → L2_INTENT → L3_SUMMARY → L4_FINAL → MERGED
    任一层 fail → CHANGES_REQUESTED（打回）
    新 push（head_sha 变）→ 全部旧 verdict 失效归档 → 自动回 OPENED 全层重走（无人工复位）

@@ -32,10 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: nosborn/github-action-markdown-cli@v3.3.7
-        with:
-          files: .
-          config-file: .markdownlint.json
+      - name: markdownlint（npx，避免第三方 action 依赖）
+        run: npx --yes markdownlint-cli . --config .markdownlint.json --ignore node_modules --ignore docs
+        # docs/ 为基线文档镜像（DEV-PLAN/baseline 原文收编），格式规则放宽由 docs-lint.yml 另行覆盖链接有效性
 
   secret-pattern-lint:
     name: "lint: 泄密扫描（零落盘纪律机器化）"

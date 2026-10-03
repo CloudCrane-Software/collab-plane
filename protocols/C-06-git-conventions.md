@@ -4,7 +4,7 @@
 
 ## 1. 分支模型三级（冻结）
 
-```
+```text
 main（保护：四层门+CodeRabbit+CI，禁直推）
   ← feature/<project>/<slug>（集成缓冲；worker PR 的目标；PR main 前的整体验收位）
     ← worker/<project>/<task-id>（worker 全新分支、一次性，合并即删）

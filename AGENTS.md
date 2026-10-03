@@ -7,7 +7,7 @@
 
 任务 = 任务卡（C-01 schema，YAML frontmatter），生命周期：
 
-```
+```text
 backlog ──认领──> active ──交付──> review ──验收──> done
             （board 原子认领，幂等键 (task_id, lease_epoch)）      │
                 ▲                                          blocked
@@ -22,7 +22,7 @@ backlog ──认领──> active ──交付──> review ──验收──
 
 ## 2. 四层合并门（你交付的 PR 会经过什么）
 
-```
+```text
 OPENED → L1_TEST → L2_INTENT → L3_SUMMARY → L4_FINAL → MERGED
    任一层 fail → CHANGES_REQUESTED（打回，之前所有层重新走）
    新 push（head_sha 变）→ 旧代次全部 verdict 失效归档 → 自动回 OPENED 全层重走
@@ -36,7 +36,7 @@ OPENED → L1_TEST → L2_INTENT → L3_SUMMARY → L4_FINAL → MERGED
 
 ## 3. 分支纪律（C-06）
 
-```
+```text
 main（保护：四层门+CodeRabbit+CI，禁直推）
   ← feature/<project>/<slug>（集成缓冲；worker PR 的目标；PR main 前的整体验收位）
     ← worker/<project>/<task-id>（worker 全新分支、一次性，合并即删）

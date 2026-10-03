@@ -4,7 +4,7 @@
 
 ## 1. 状态集与迁移
 
-```
+```text
 OPENED → L1_TEST → L2_INTENT → L3_SUMMARY → L4_FINAL → MERGED
    任一层 fail → CHANGES_REQUESTED（打回）
    新 push（head_sha 变）→ 全部旧 verdict 失效归档 → 自动回 OPENED 全层重走（无人工复位）
@@ -16,6 +16,7 @@ OPENED → L1_TEST → L2_INTENT → L3_SUMMARY → L4_FINAL → MERGED
 ## 2. 各层准入
 
 **L1_TEST（四件合取）**：
+
 1. 弱模型测试者 A（族 X）在检出 worktree 跑预设测试，全过；
 2. 弱模型测试者 B（族 Y≠X，且与实现者异族）跑同一预设测试，全过；
 3. CodeRabbit review 通过（required check `coderabbit`；免费档不可用触发 owner L3，期间其余三件照常先行）；
