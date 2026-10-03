@@ -1,0 +1,25 @@
+# docs-lint —— docs/ 目录 markdown 链接有效性检查（骨架）。
+# 说明：DEV-PLAN 等基线文档镜像自 windev 工作区，含对仓外路径的纯文本引用；
+# 先以 continue-on-error 观察误报，阶段 1 内收紧为必过。
+name: docs-lint
+
+on:
+  pull_request:
+    paths: ['docs/**']
+  push:
+    branches: [main]
+    paths: ['docs/**']
+  schedule:
+    - cron: '17 22 * * *'   # 每日 06:17 UTC+8 兜底全量检查
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    continue-on-error: true   # 骨架态：先观察，阶段 1 收紧
+    steps:
+      - uses: actions/checkout@v4
+      - name: markdown 链接检查（docs/）
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          folder-path: docs
+          config-file: .github/mlc-config.json

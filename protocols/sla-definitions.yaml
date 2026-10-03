@@ -1,0 +1,63 @@
+# C-12a SLA 指标定义 v0 —— 机器可读版
+# 契约版本：v0.1.0-draft（冻结草案 2026-10-03，出处 docs/DEV-PLAN.md §3.2；数值全部为草案，owner 拍板量级）
+# 入仓位置：protocols/sla-definitions.yaml（DEV-PLAN §3.2 冻结要求）
+schema_version: "0.1"
+definitions:
+  - id: SLA-01
+    name: task-claim-api-availability
+    unit: ratio
+    threshold_draft: 0.995
+    source: board-telemetry+healthz   # 过渡期探活口径=/api/tasks
+    breach_action: P0-incident-via-degraded-channel
+  - id: SLA-02
+    name: claim-latency-p95
+    unit: seconds
+    threshold_draft: 2
+    source: board-telemetry
+  - id: SLA-03
+    name: dispatch-to-claim-p50
+    unit: minutes
+    threshold_draft: 10
+    condition: with-capacity
+    source: pg-task-state-transitions
+  - id: SLA-04
+    name: ensemble-turnaround
+    unit: minutes
+    threshold_draft: { weak5: 40, strong5: 120 }
+    source: runner-state+telemetry
+    on_breach: alert+failed-seat-record
+  - id: SLA-05
+    name: merge-gate-p95
+    unit: hours
+    threshold_draft: { total: 24, single_layer: 2, ci: 10m, coderabbit: 30m }
+    source: merge-gate-state-machine-timestamps
+    on_breach: auto-remind-owner
+  - id: SLA-06
+    name: credential-issuance
+    unit: seconds / ratio
+    threshold_draft: { p95: 3, success_rate: 0.999 }
+    source: vault-broker-telemetry
+    fail_mode: fail-closed   # 失败绝不降级返明文
+    on_breach: reject-rate-gt-1pct-alert
+  - id: SLA-07
+    name: span-ingest-to-queryable-p95
+    unit: seconds
+    threshold_draft: 60
+    source: otelcol-to-clickhouse-latency
+    on_breach: zero-ingest-alert; over-5min-line
+  - id: SLA-08
+    name: regression-daily-report
+    unit: boolean / counter
+    rule: daily-0600-must-emit; fail-count-monotonic-non-increasing
+    note: 承诺自阶段 0 锚点重立完成起生效（当前锚点已破 fail=6）
+    source: artifact-mtime-/var/log/factory-tests + report-trigger-source-field
+  - id: SLA-09
+    name: alert-delivery-latency
+    unit: minutes
+    threshold_draft: 15
+    source: delivery-log
+    note: 微信通道修复后生效；降级面=每日06:00摘要+board频道
+notes:
+  - v1 度量=时间戳文件/telemetry.jsonl（在产）；CH 建库后切 span 数据源，承诺与口径不变
+  - SLO 击穿=自动开 P0 事故任务
+  - 阈值为草案，owner 拍板后升 C-12 v1

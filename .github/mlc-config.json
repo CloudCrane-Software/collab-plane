@@ -1,0 +1,8 @@
+{
+  "ignorePatterns": [
+    { "pattern": "^http(s)?://(100\\.|192\\.168\\.|10\\.)" },
+    { "pattern": "^#" }
+  ],
+  "replacementPatterns": [],
+  "httpHeaders": []
+}

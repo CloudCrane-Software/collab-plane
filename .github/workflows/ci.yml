@@ -1,0 +1,54 @@
+# ci-gate —— PR 必过（C-06 required check 名冻结项）。零凭据原则：本 workflow 不持任何 secret；
+# 涉凭据/tailnet 的测试一律 self-hosted（平面侧执行器），不进 GH 托管 runner。
+name: ci-gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.base.ref || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  smoke-protocol-schema:
+    name: smoke: protocols 版本头校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 契约文件头版本号冒烟
+        run: bash tests/visible/smoke-protocol-schema.sh
+
+  config-wellformed:
+    name: smoke: jobs/projects 配置可解析
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tests/visible/check-config-wellformed.py
+
+  markdown-lint:
+    name: lint: markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nosborn/github-action-markdown-cli@v3.3.7
+        with:
+          files: .
+          config-file: .markdownlint.json
+
+  secret-pattern-lint:
+    name: lint: 泄密扫描（零落盘纪律机器化）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: 扫描密钥形状
+        run: |
+          set -e
+          # 说明：契约文档中的模式描述（如 C-02/C-13a 列举的形状前缀）不含完整密钥形状，不触发；
+          # 误报率调参是阶段 0 范围项（DEV-PLAN §5.2）。
+          HITS=$(git grep -nIE '(ghp_[A-Za-z0-9]{20,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|BEGIN [A-Z ]*PRIVATE KEY|Bearer +[A-Za-z0-9._-]{20,})' -- . ':!docs' || true)
+          if [ -n "$HITS" ]; then echo "$HITS"; exit 1; fi
+          echo "SECRET-SCAN-OK"

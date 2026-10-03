@@ -1,0 +1,17 @@
+# 租户零号（plane 自身）——同权同管道，无特权通道（DEV-PLAN §2.1）
+project: plane
+org_id: cloudcrane
+tenant_type: internal_project
+quota:
+  max_concurrent_active: 4        # plane=4（其余项目默认 2）
+  min_concurrent_guarantee: 1
+  ensemble_daily: {weak5: 20, strong5: 4}
+  token_budget_daily: unbounded   # F1/HG-05 计量洞修复前粗估并标注口径
+family_routing:
+  preferred: [glm, minimax, stepfun]
+  hetero_acceptance: true
+default_acceptance_suite:
+  visible: tests/visible/
+  holdout_ref: "<SHA-256 登记项（受控存储）；本仓不存 holdout 正文>"
+created: 2026-10-03
+notes: 平面自身 = 租户零号；自举任务与其他项目同管道走四层门。

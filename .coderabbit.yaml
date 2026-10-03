@@ -1,0 +1,39 @@
+# CodeRabbit 路径级规则（DEV-PLAN §5.3）：org 级 App 安装于 cloudcrane-software；
+# review 结论经 webhook 汇入 merge-pipeline L1，required check 名=coderabbit（C-05/C-06）。
+# 档位：免费档起步（§8 Q11 推荐 A）；免费档可用性于开仓当日以测试 PR 早验。
+language: zh-CN
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  commit_status: true
+  fail_commit_status: false
+  path_instructions:
+    - path: protocols/**
+      instructions: |
+        契约冻结区（C-01..C-15）。任何改动按【全量审】执行（不只看 diff 上下文）：
+        1) 版本号必须随变更递增且文件头含冻结日期；2) 不兼容改动必须保留旧版解析器说明并附 ADR；
+        3) 幂等键（C-07）键格式变更必须有 ADR；4) 与 merge-pipeline（C-05）的集成面是否同步更新；
+        5) 评语用中文。CI 对 protocols/ schema 校验未过不得合入 main。
+    - path: plane/merge-pipeline/**
+      instructions: |
+        四层合并门实现（C-05/state_machine.md 为准）。重点审：代次失效（head_sha）与幂等键
+        (repo, pr, head_sha, layer) 是否一致；veto 输出必须物理限定 {veto, reason} 无 approve 字段；
+        attempt 上限 3；GH 标签/Checks 只是镜像不作权威（权威在 srv-1 PG）。
+    - path: plane/ensemble-runner/**
+      instructions: |
+        ensemble 编排（C-02/C-03/C-04 为准）。重点审：铁序（5 轨迹全落盘后才合成）、
+        轨迹前置输入顺序断言、独立性四防线、attempt 上限 2、budget 超限记 over_budget。
+        严禁出现任何密钥形状（零落盘）。
+    - path: tests/visible/**
+      instructions: |
+        visible 用例区。fail 只降不升（锚点铁律）；新增用例必须可判定（命令/工件判定）；
+        holdout 内容禁止出现在本目录。
+    - path: projects/**
+      instructions: |
+        租户注册表（C-10b/C-11a 为准）。配额字段与 schema 一致；不承载业务代码。
+
+chat:
+  auto_reply: true

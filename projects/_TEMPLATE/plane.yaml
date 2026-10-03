@@ -1,0 +1,19 @@
+# 项目租户注册表模板（C-10b）——新项目上板复制为 projects/<project>/plane.yaml 并填值
+# 上板 = 五处同落流水线：Higress consumer key → OpenBao policy path → board namespace →
+#        git 路径 projects/<project>/ → span 维度（C-11a/C-13a），+ 本文件
+project: <slug>
+org_id: cloudcrane
+tenant_type: internal_project
+quota:
+  max_concurrent_active: 2
+  min_concurrent_guarantee: 1
+  ensemble_daily: {weak5: 20, strong5: 4}
+  token_budget_daily: unbounded
+family_routing:
+  preferred: [any]
+  hetero_acceptance: true
+default_acceptance_suite:
+  visible: tests/visible/
+  holdout_ref: "<SHA-256 登记项>"
+created: <YYYY-MM-DD>
+notes: <一句话>

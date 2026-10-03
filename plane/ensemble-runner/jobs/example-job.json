@@ -1,0 +1,22 @@
+{
+  "job_id": "job-example-weak5-taskcard-0001",
+  "run_id": "hash(plane/T-EX01, weak-seat@1.0, docset-sha256, spec-v0.1.0)",
+  "kind": "weak5",
+  "slots": [
+    { "slot_id": 1, "model": "glm-5.3-flash", "driver": "zcode", "profile": "glm/weak-seat" },
+    { "slot_id": 2, "model": "glm-5.3-flash", "driver": "zcode", "profile": "glm/weak-seat" },
+    { "slot_id": 3, "model": "step-router-v1", "driver": "kimi", "profile": "stepfun/weak-seat" },
+    { "slot_id": 4, "model": "minimax-m3.1-flash-preview", "driver": "minimax-code", "profile": "minimax/weak-seat" },
+    { "slot_id": 5, "model": "minimax-m3.1-flash-preview", "driver": "minimax-code", "profile": "minimax/weak-seat" }
+  ],
+  "prompt_template": "weak-seat@1.0",
+  "vars": {
+    "task": "为 plane/T-EX01 撰写任务卡（C-01 schema），可判定验收判据 3 条",
+    "independence_notice": "禁读 traces/ 目录下其他槽位文件（C-04 独立性声明）",
+    "holdout_notice": "禁读任何 holdout 内容；holdout 只有 SHA-256 登记"
+  },
+  "docs": ["docs/DEV-PLAN.md@<sha256>", "protocols/C-01-task-card-schema.md@<sha256>"],
+  "budget": { "token_cap": 400000, "wall_clock_cap_min": 40 },
+  "timeout_min": 40,
+  "synthesis": { "model": "glm-5.3", "template": "synthesis@1.0" }
+}
